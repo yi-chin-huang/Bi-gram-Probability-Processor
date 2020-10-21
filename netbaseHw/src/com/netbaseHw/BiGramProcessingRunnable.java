@@ -71,4 +71,3 @@ final class BiGramResult {
         this.prob = prob;
     }
 }
-

@@ -36,15 +36,15 @@ public class SpamFilterV2 {
         // Add shut down hook to handle abrupt termination
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                executor.shutdown();
-                try {
-                    if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
-                        List<Runnable> droppedTasks = executor.shutdownNow();
-                        System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks never commenced execution.");
-                    }
-                } catch (InterruptedException e) {
-                    executor.shutdownNow();
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                    List<Runnable> droppedTasks = executor.shutdownNow();
+                    System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks never commenced execution.");
                 }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+            }
             }
         });
 
