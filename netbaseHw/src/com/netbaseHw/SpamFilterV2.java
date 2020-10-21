@@ -17,7 +17,7 @@ public class SpamFilterV2 {
         System.out.println(AddedResult + ", " + results.get(AddedResult));
     }
 
-    public static void calculateBiGramProb(String dirPath) {
+    public static void main(String dirPath) {
         // Load files in the given directory
         File dir = new File(dirPath);
         File[] matchingFiles = dir.listFiles(new FilenameFilter() {

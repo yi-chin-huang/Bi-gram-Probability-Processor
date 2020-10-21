@@ -6,13 +6,18 @@ import java.util.*;
 
 public class BiGramProcessingRunnable implements Runnable {
     private final File file;
-
     public BiGramProcessingRunnable(File file) {
         this.file = file;
     }
 
     @Override
     public void run()  {
+        BiGramResult result = BiGramProcessingRunnable.calculateBiGramProb(file);
+        String resultKey = Integer.toString(result.k) + ", " + Double.toString(result.prob);
+        SpamFilterV2.modifyResults(resultKey);
+    }
+
+    public static BiGramResult calculateBiGramProb(File file) {
         // Load the given file and remove punctuations
         List<String> wordList = new ArrayList<String>();
         try {
@@ -52,7 +57,18 @@ public class BiGramProcessingRunnable implements Runnable {
         }
         int k = wordList.size() - 1;
         double ans = (double) Math.round(Math.pow(prob, 1.0 / k) * 100000d) / 100000d;
-        String resultKey = Integer.toString(k) + ", " + Double.toString(ans);
-        SpamFilterV2.modifyResults(resultKey);
+
+        return new BiGramResult(k, ans);
     }
 }
+
+final class BiGramResult {
+    final int k;
+    final double prob;
+
+    public BiGramResult(int k, double prob) {
+        this.k = k;
+        this.prob = prob;
+    }
+}
+
